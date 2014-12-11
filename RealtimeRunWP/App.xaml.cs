@@ -16,7 +16,6 @@ namespace RealtimeRunWP
         private void Application_RunningInBackground(object sender, RunningInBackgroundEventArgs args)
         {
             RunningInBackground = true;
-            // Suspend all unnecessary processing such as UI updates
         }
 
         public static Geolocator Geolocator { get; set; }
