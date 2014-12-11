@@ -11,7 +11,7 @@ namespace RealtimeRunWP
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        public const string SiteUrl = "http://gizmo10/RealtimeRun";
+        public const string SiteUrl = "(the web app root URL, e.g. http://mymachine/rtr)";
         private IHubProxy _hub;
         private HubConnection _hubConnection;
 
