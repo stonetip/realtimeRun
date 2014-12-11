@@ -12,9 +12,9 @@
 
 </head>
 <body>
-
+    <input id="btnTest" type="button" value="Test" />
     <div id="divOutput">0, 0</div>
-    <input id="btnTest" type="button" value="test" />
+    
     <div class="map" id="mapDiv"></div>
 
 
@@ -35,13 +35,13 @@
         var map = null;
 
         // start with center of contiguous U.S.
-        var defaultLat = 39.83333;
-        var defaultLon = -98.58333;
+        var initialLat = 39.83333;
+        var initialLon = -98.58333;
 
         function getMap() {
             map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), {
                 credentials: bingMapsKey,
-                center: new Microsoft.Maps.Location(defaultLat, defaultLon),
+                center: new Microsoft.Maps.Location(initialLat, initialLon),
                 zoom: 5
             });
         }
@@ -57,6 +57,7 @@
 
             var mh = $.connection.mapHub;
 
+            // SignalR client method that will be sent data via MapHub.cs
             mh.client.broadcastLatLon = function (lat, lon, altitude, speed) {
 
                 $("#divOutput").text(lat + ", " + lon + " altitude: " + altitude + ", speed: " + speed);
@@ -94,6 +95,7 @@
                 }
             };
 
+
             function randomIntFromInterval(min, max) {
                 return Math.floor(Math.random() * (max - min + 1) + min);
             }
@@ -104,13 +106,16 @@
                 // Test function to see if SignalR is working
                 $("#btnTest").click(function () {
 
-                    var splitLat = defaultLat.toString().split(".");
-                    var splitLon = defaultLon.toString().split(".");
+                    var splitLat = initialLat.toString().split(".");
+                    var splitLon = initialLon.toString().split(".");
 
+                    // This just generates a random lat/lon within a few kilometers distance
                     var newLat = splitLat[0] + "." + splitLat[1].substr(0,1) + randomIntFromInterval(4, 6) + randomIntFromInterval(0, 99);
                     var newLon = splitLon[0] + "." + splitLon[1].substr(0, 1) + randomIntFromInterval(4, 6) + randomIntFromInterval(0, 99);
 
                     try {
+
+                        // Calls the Send method in MapHub.cs
                         mh.server.send(newLat, newLon, 0, 0);
 
                         console.log("Sent test data to server");
@@ -122,16 +127,16 @@
             });
         });
 
-        // Optional code to set the initial location to wherever you are
 
+        // Optional code to set the initial location to wherever you are
         function getPosition(position) {
             console.log("Latitude: " + position.coords.latitude +
             " Longitude: " + position.coords.longitude);
 
-            defaultLat = position.coords.latitude;
-            defaultLon = position.coords.longitude;
+            initialLat = position.coords.latitude;
+            initialLon = position.coords.longitude;
 
-            map.setView({ zoom: 12, center: new Microsoft.Maps.Location(defaultLat, defaultLon) });
+            map.setView({ zoom: 12, center: new Microsoft.Maps.Location(initialLat, initialLon) });
         }
 
         function processLocationError(error) {
