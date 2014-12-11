@@ -185,3 +185,4 @@ FakesAssemblies/
 # App-specific
 AppSecrets.config
 *.pubxml
+mapture*
