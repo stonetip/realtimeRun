@@ -33,7 +33,7 @@ namespace RealtimeRunWP
         {
             if (App.Geolocator != null) return;
 
-            App.Geolocator = new Geolocator {DesiredAccuracy = PositionAccuracy.High, MovementThreshold = 10}; // 10 meters (to limit data transmission)
+            App.Geolocator = new Geolocator { DesiredAccuracy = PositionAccuracy.High, MovementThreshold = 10 }; // 10 meters (to limit data transmission)
             App.Geolocator.PositionChanged += Geolocator_PositionChanged;
         }
 
@@ -42,7 +42,7 @@ namespace RealtimeRunWP
             var roundedLat = Math.Round(args.Position.Coordinate.Latitude, 6);
             var roundedLon = Math.Round(args.Position.Coordinate.Longitude, 6);
             var altitude = args.Position.Coordinate.Altitude;
-            var speed = args.Position.Coordinate.Speed != null && Double.IsNaN((double) args.Position.Coordinate.Speed) ? 0 : args.Position.Coordinate.Speed;
+            var speed = args.Position.Coordinate.Speed != null && Double.IsNaN((double)args.Position.Coordinate.Speed) ? 0 : args.Position.Coordinate.Speed;
 
             Debug.WriteLine("{0}, {1} altitude: {2}, speed: {3}", roundedLat, roundedLon, altitude, speed);
 
