@@ -15,9 +15,9 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-       
-        <TextBlock Name="TblockLatLonBlock" HorizontalAlignment="Center"  FontSize="36"
-                   TextWrapping="Wrap" Text="0,0" VerticalAlignment="Center"/>
+
+        <TextBlock Name="TblockLatLonBlock" HorizontalAlignment="Center" FontSize="36"
+            TextWrapping="Wrap" Text="0,0" VerticalAlignment="Center" />
     </Grid>
 
 </phone:PhoneApplicationPage>

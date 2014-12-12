@@ -33,7 +33,7 @@ namespace RealtimeRunWP
         {
             if (App.Geolocator != null) return;
 
-            App.Geolocator = new Geolocator {DesiredAccuracy = PositionAccuracy.High, MovementThreshold = 10};
+            App.Geolocator = new Geolocator {DesiredAccuracy = PositionAccuracy.High, MovementThreshold = 10}; // 10 meters (to limit data transmission)
             App.Geolocator.PositionChanged += Geolocator_PositionChanged;
         }
 
