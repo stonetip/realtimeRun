@@ -14,7 +14,6 @@ namespace RealtimeRunWP
         public const string SiteUrl = "(the web app root URL, e.g. http://mymachine/rtr)";
         private IHubProxy _hub;
         private HubConnection _hubConnection;
-
         // Constructor
         public MainPage()
         {
@@ -30,32 +29,30 @@ namespace RealtimeRunWP
             StartGeolocation();
         }
 
-
         public void StartGeolocation()
         {
             if (App.Geolocator != null) return;
 
-            App.Geolocator = new Geolocator { DesiredAccuracy = PositionAccuracy.High, MovementThreshold = 10 };
+            App.Geolocator = new Geolocator {DesiredAccuracy = PositionAccuracy.High, MovementThreshold = 10};
             App.Geolocator.PositionChanged += Geolocator_PositionChanged;
         }
-
 
         private void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
             var roundedLat = Math.Round(args.Position.Coordinate.Latitude, 6);
             var roundedLon = Math.Round(args.Position.Coordinate.Longitude, 6);
             var altitude = args.Position.Coordinate.Altitude;
-            var speed = Double.IsNaN((double)args.Position.Coordinate.Speed) ? 0 : args.Position.Coordinate.Speed;
+            var speed = args.Position.Coordinate.Speed != null && Double.IsNaN((double) args.Position.Coordinate.Speed) ? 0 : args.Position.Coordinate.Speed;
 
             Debug.WriteLine("{0}, {1} altitude: {2}, speed: {3}", roundedLat, roundedLon, altitude, speed);
 
-            SendMessage(roundedLat.ToString(CultureInfo.InvariantCulture), roundedLon.ToString(CultureInfo.InvariantCulture), altitude, speed);
+            SendMessage(roundedLat.ToString(CultureInfo.InvariantCulture),
+                roundedLon.ToString(CultureInfo.InvariantCulture), altitude, speed);
 
             Dispatcher.BeginInvoke(() =>
                 TblockLatLonBlock.Text =
                     String.Format("{0}, {1} altitude: {2}, speed: {3}", roundedLat, roundedLon, altitude, speed));
         }
-
 
         public async Task StartSignalRHub()
         {
@@ -73,7 +70,6 @@ namespace RealtimeRunWP
             }
         }
 
-
         public void SendMessage(string lat, string lon, double? altitude, double? speed)
         {
             try
@@ -82,7 +78,6 @@ namespace RealtimeRunWP
             }
             catch (Exception err)
             {
-
                 Debug.WriteLine(err.Message);
             }
         }
